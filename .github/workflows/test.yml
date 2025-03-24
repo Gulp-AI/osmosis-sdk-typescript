@@ -1,0 +1,61 @@
+name: Run Tests
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [20.19.0, 22.14.0]
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      
+      - name: Cache npm dependencies
+        uses: actions/cache@v3
+        id: npm-cache
+        with:
+          path: |
+            **/node_modules
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node-version }}-
+            ${{ runner.os }}-node-
+      
+      - name: Install dependencies
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: npm ci
+      
+      - name: Cache TypeScript build
+        uses: actions/cache@v3
+        with:
+          path: dist
+          key: ${{ runner.os }}-tsc-${{ matrix.node-version }}-${{ hashFiles('**/tsconfig.json') }}-${{ hashFiles('src/**/*.ts') }}
+      
+      - name: Build
+        run: npm run build
+      
+      - name: Cache Jest
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules/.cache/jest
+            ./coverage
+          key: ${{ runner.os }}-jest-${{ matrix.node-version }}-${{ hashFiles('**/jest.config.js') }}-${{ hashFiles('**/*.test.ts') }}
+      
+      - name: Run tests
+        run: npm test
+  
