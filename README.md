@@ -51,16 +51,16 @@ This approach keeps your dependencies minimal and focused on what you need.
 ### Basic Usage
 
 ```typescript
-import { OpenAI, configure } from 'osmosis-ai';
+import { OpenAI, configure } from "osmosis-ai";
 
 // Configure logging (optional)
 configure({
   enabled: true,
-  logDestination: 'console', // 'console', 'cloud', or 'both'
+  logDestination: "console", // 'console', 'cloud', or 'both'
   enabledAPIs: {
     openai: true,
-    anthropic: true
-  }
+    anthropic: true,
+  },
 });
 
 // Use the patched OpenAI client as normal
@@ -68,8 +68,8 @@ const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // Make API requests as usual
 const completion = await client.chat.completions.create({
-  messages: [{ role: 'user', content: 'Hello!' }],
-  model: 'gpt-4o-mini',
+  messages: [{ role: "user", content: "Hello!" }],
+  model: "gpt-4o-mini",
 });
 
 console.log(completion.choices[0]?.message?.content);
@@ -78,33 +78,33 @@ console.log(completion.choices[0]?.message?.content);
 ### OpenAI V2 API with Streaming
 
 ```typescript
-import { OpenAI, configure } from 'osmosis-ai';
-import dotenv from 'dotenv';
+import { OpenAI, configure } from "osmosis-ai";
+import dotenv from "dotenv";
 
 dotenv.config();
 
 // Configure logging
 configure({
   enabled: true,
-  logDestination: 'both', // Log to both console and cloud
-  enabledAPIs: { openai: true }
+  logDestination: "both", // Log to both console and cloud
+  enabledAPIs: { openai: true },
 });
 
 // Create OpenAI client
 const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 // Using streaming with v2 API
 const stream = await client.chat.completions.create({
-  messages: [{ role: 'user', content: 'Write a short poem' }],
-  model: 'gpt-4o-mini',
+  messages: [{ role: "user", content: "Write a short poem" }],
+  model: "gpt-4o-mini",
   stream: true,
 });
 
 // Process the stream
 for await (const chunk of stream) {
-  const content = chunk.choices[0]?.delta?.content || '';
+  const content = chunk.choices[0]?.delta?.content || "";
   if (content) {
     process.stdout.write(content);
   }
@@ -116,15 +116,15 @@ for await (const chunk of stream) {
 To enable cloud logging with Osmosis:
 
 ```typescript
-import { configure, initCloud } from 'osmosis-ai';
+import { configure, initCloud } from "osmosis-ai";
 
 // Initialize cloud logging with your API key
-initCloud('your-osmosis-api-key');
+initCloud("your-osmosis-api-key");
 
 // Configure to use cloud logging
 configure({
-  logDestination: 'cloud', // or 'both' for cloud and console
-  enabledAPIs: { openai: true, anthropic: true }
+  logDestination: "cloud", // or 'both' for cloud and console
+  enabledAPIs: { openai: true, anthropic: true },
 });
 ```
 
@@ -133,21 +133,21 @@ configure({
 The library supports:
 
 - **OpenAI**: Both v1 and v2 APIs, including streaming
-- **Anthropic**: Claude API 
+- **Anthropic**: Claude API
 - **LangChain OpenAI**: LangChain's OpenAI integration
 - **LangChain Anthropic**: LangChain's Anthropic integration
 
 ## Configuration Options
 
-| Option | Type | Description |
-|--------|------|-------------|
-| `enabled` | boolean | Enable/disable all monitoring |
-| `logDestination` | 'console' \| 'cloud' \| 'both' | Where to send logs |
-| `cloudApiKey` | string | API key for Osmosis Cloud logging |
-| `enabledAPIs.openai` | boolean | Enable OpenAI monitoring |
-| `enabledAPIs.anthropic` | boolean | Enable Anthropic monitoring |
-| `enabledAPIs.langchainOpenai` | boolean | Enable LangChain OpenAI monitoring |
-| `enabledAPIs.langchainAnthropic` | boolean | Enable LangChain Anthropic monitoring |
+| Option                           | Type                           | Description                           |
+| -------------------------------- | ------------------------------ | ------------------------------------- |
+| `enabled`                        | boolean                        | Enable/disable all monitoring         |
+| `logDestination`                 | 'console' \| 'cloud' \| 'both' | Where to send logs                    |
+| `cloudApiKey`                    | string                         | API key for Osmosis Cloud logging     |
+| `enabledAPIs.openai`             | boolean                        | Enable OpenAI monitoring              |
+| `enabledAPIs.anthropic`          | boolean                        | Enable Anthropic monitoring           |
+| `enabledAPIs.langchainOpenai`    | boolean                        | Enable LangChain OpenAI monitoring    |
+| `enabledAPIs.langchainAnthropic` | boolean                        | Enable LangChain Anthropic monitoring |
 
 ## Examples
 
@@ -207,4 +207,4 @@ When using cloud logging, both requests and responses are sent to the Osmosis cl
 
 ## License
 
-MIT 
+MIT

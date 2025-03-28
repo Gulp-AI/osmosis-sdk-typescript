@@ -41,17 +41,17 @@ When adding new features, please ensure they are covered by tests. Here are some
 ### Example Test
 
 ```typescript
-describe('My Feature', () => {
+describe("My Feature", () => {
   beforeEach(() => {
     // Setup code
   });
-  
-  test('should handle normal operation', () => {
+
+  test("should handle normal operation", () => {
     // Test code
     expect(result).toBe(expectedValue);
   });
-  
-  test('should handle errors gracefully', () => {
+
+  test("should handle errors gracefully", () => {
     // Test error handling
     expect(() => functionThatThrows()).toThrow();
   });
@@ -66,4 +66,4 @@ We aim for at least 80% test coverage for all files. You can check coverage afte
 npm run test:coverage
 ```
 
-This will generate a coverage report in the `coverage` directory. You can open `coverage/lcov-report/index.html` in your browser to view a detailed coverage report. 
+This will generate a coverage report in the `coverage` directory. You can open `coverage/lcov-report/index.html` in your browser to view a detailed coverage report.

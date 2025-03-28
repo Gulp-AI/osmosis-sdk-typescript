@@ -5,6 +5,7 @@
 ## Type of Change
 
 <!-- Please check the options that are relevant -->
+
 - [ ] Bug fix (non-breaking change that fixes an issue)
 - [ ] New feature (non-breaking change that adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
@@ -20,7 +21,7 @@
 
 ## Testing
 
-<!-- Describe the tests you ran to verify your changes. 
+<!-- Describe the tests you ran to verify your changes.
      Provide instructions so reviewers can reproduce.
      Include relevant details for your test configuration. -->
 
@@ -39,4 +40,4 @@
 
 ## Additional Context
 
-<!-- Add any other context about the PR here --> 
+<!-- Add any other context about the PR here -->

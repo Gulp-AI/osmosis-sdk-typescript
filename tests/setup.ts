@@ -4,12 +4,12 @@ global.console = {
   ...console,
   log: jest.fn(),
   warn: jest.fn(),
-  error: jest.fn()
+  error: jest.fn(),
 };
 
 // Mock axios for cloud API calls
-jest.mock('axios', () => ({
-  post: jest.fn().mockResolvedValue({ status: 200, data: { success: true } })
+jest.mock("axios", () => ({
+  post: jest.fn().mockResolvedValue({ status: 200, data: { success: true } }),
 }));
 
 // Reset all mocks before each test
@@ -46,4 +46,4 @@ afterAll(() => {
   // Any global cleanup needed after all tests
 });
 
-export {}; 
+export {};

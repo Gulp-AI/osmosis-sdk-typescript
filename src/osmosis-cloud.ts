@@ -1,6 +1,6 @@
-import { createHash } from 'crypto';
-import xxhash from 'xxhash-wasm';
-import { OSMOSIS_API_URL } from './consts';
+import { createHash } from "crypto";
+import xxhash from "xxhash-wasm";
+import { OSMOSIS_API_URL } from "./consts";
 
 // Global configuration
 let enabled = true;
@@ -15,12 +15,12 @@ let xxhashInstance: any = null;
 export async function init(apiKey: string): Promise<void> {
   osmosisApiKey = apiKey;
   if (!apiKey) {
-    console.warn('[OSMOSIS-AI] No API key provided. Cloud logging disabled.');
+    console.warn("[OSMOSIS-AI] No API key provided. Cloud logging disabled.");
     return;
   }
   xxhashInstance = await xxhash();
   initialized = true;
-  console.log('[OSMOSIS-AI] Cloud logging initialized');
+  console.log("[OSMOSIS-AI] Cloud logging initialized");
 }
 
 /**
@@ -44,12 +44,9 @@ export function enableOsmosis(): void {
 function getOwnerHash(apiKey: string): string {
   if (!xxhashInstance) {
     // Fallback to sha256 if xxhash isn't initialized yet
-    return createHash('sha256')
-      .update(apiKey)
-      .digest('hex')
-      .substring(0, 8);
+    return createHash("sha256").update(apiKey).digest("hex").substring(0, 8);
   }
-  
+
   // Use xxhash's h32ToString which returns a zero-padded hex string
   return xxhashInstance.h32ToString(apiKey);
 }
@@ -59,27 +56,31 @@ function getOwnerHash(apiKey: string): string {
  * @returns The request ID that can be used to link related requests
  */
 export function sendToOsmosis(
-  query: Record<string, any>, 
-  response: Record<string, any>, 
-  status: number = 200
+  query: Record<string, any>,
+  response: Record<string, any>,
+  status: number = 200,
 ): string {
   if (!enabled || !osmosisApiKey) {
-    return '';
+    return "";
   }
 
   if (!initialized) {
-    console.warn('[OSMOSIS-AI] Cloud logging not initialized. Call init(apiKey) first.');
-    return '';
+    console.warn(
+      "[OSMOSIS-AI] Cloud logging not initialized. Call init(apiKey) first.",
+    );
+    return "";
   }
 
   // Generate a request ID for linking requests (if not provided)
-  const requestId = query.requestId || `req_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-  
+  const requestId =
+    query.requestId ||
+    `req_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+
   try {
     // Create headers
     const headers = {
-      'Content-Type': 'application/json',
-      'x-api-key': osmosisApiKey
+      "Content-Type": "application/json",
+      "x-api-key": osmosisApiKey,
     };
 
     // Prepare main data payload
@@ -88,25 +89,33 @@ export function sendToOsmosis(
       date: Math.floor(Date.now() / 1000), // Unix timestamp in seconds
       query: { ...query, requestId },
       response,
-      status
+      status,
     };
 
     // Send main data payload
     fetch(`${OSMOSIS_API_URL}/data`, {
-      method: 'POST',
+      method: "POST",
       headers,
-      body: JSON.stringify(data).replace(/\n/g, '') + '\n'
-    }).then(result => {
-      if (result.status !== 200) {
-        console.warn(`[OSMOSIS-AI] API returned status ${result.status} for data`);
-      }
-    }).catch(error => {
-      console.warn(`[OSMOSIS-AI] Failed to send data to Osmosis API: ${error}`);
-    });
+      body: JSON.stringify(data).replace(/\n/g, "") + "\n",
+    })
+      .then((result) => {
+        if (result.status !== 200) {
+          console.warn(
+            `[OSMOSIS-AI] API returned status ${result.status} for data`,
+          );
+        }
+      })
+      .catch((error) => {
+        console.warn(
+          `[OSMOSIS-AI] Failed to send data to Osmosis API: ${error}`,
+        );
+      });
   } catch (error) {
-    console.warn(`[OSMOSIS-AI] Failed to prepare data for Osmosis API: ${error}`);
+    console.warn(
+      `[OSMOSIS-AI] Failed to prepare data for Osmosis API: ${error}`,
+    );
   }
-  
+
   return requestId;
 }
 
@@ -135,5 +144,5 @@ export const __testing__ = {
   },
   setEnabled: (value: boolean) => {
     enabled = value;
-  }
-}; 
+  },
+};
