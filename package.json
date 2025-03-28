@@ -1,6 +1,6 @@
 {
   "name": "osmosis-ai",
-  "version": "0.1.1",
+  "version": "0.1.7",
   "description": "A TypeScript library that monkey-patches the OpenAI library to log all requests",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
