@@ -124,7 +124,7 @@ describe("Osmosis Cloud Module", () => {
 
       const [url, options] = (fetch as jest.Mock).mock.calls[0];
 
-      expect(url).toBe(`${OSMOSIS_API_URL}/data`);
+      expect(url).toBe(`${OSMOSIS_API_URL}/ingest`);
       expect(options.headers).toHaveProperty("x-api-key", "test-api-key");
 
       // Verify data format

@@ -1,5 +1,5 @@
 export const OSMOSIS_API_URL =
-  "https://ftgrv77m9f.execute-api.us-west-2.amazonaws.com/prod";
+  "https://osmosis.gulp.dev";
 
 export const defaultConfig = {
   enabled: true,

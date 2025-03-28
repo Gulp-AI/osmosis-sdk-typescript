@@ -93,7 +93,7 @@ export function sendToOsmosis(
     };
 
     // Send main data payload
-    fetch(`${OSMOSIS_API_URL}/data`, {
+    fetch(`${OSMOSIS_API_URL}/ingest`, {
       method: "POST",
       headers,
       body: JSON.stringify(data).replace(/\n/g, "") + "\n",

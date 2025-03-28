@@ -99,7 +99,7 @@ describe("Cloud Logging Integration", () => {
       expect(fetch).toHaveBeenCalled();
       const [url, options] = (fetch as jest.Mock).mock.calls[0];
 
-      expect(url).toBe(`${OSMOSIS_API_URL}/data`);
+      expect(url).toBe(`${OSMOSIS_API_URL}/ingest`);
       expect(options.headers).toHaveProperty("x-api-key", "test-api-key");
       expect(options.body).toContain("OpenAI");
       expect(options.body).toContain("/chat/completions");
